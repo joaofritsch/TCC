@@ -19,7 +19,6 @@ public class Comparator {
         this.tests = new TestFactory(this.algorithms).generate();
     }
 
-
     public void start() {
         for(Test test : this.tests) {
             test.start();
