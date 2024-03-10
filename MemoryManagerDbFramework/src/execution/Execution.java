@@ -2,6 +2,7 @@ package execution;
 
 import java.util.ArrayList;
 
+import logs.Log;
 import memoryManager.MemoryManager;
 import request.Request;
 
@@ -9,39 +10,34 @@ public class Execution {
 
     private ArrayList<Request> requests;
     private MemoryManager memoryManager;
+    private Integer pageMisses;
 
     public Execution(ArrayList<Request> requests, MemoryManager memoryManager) {
         this.requests = requests;
         this.memoryManager = memoryManager;
+        this.pageMisses = 0;
     }
 
     public void start() {
+        Log.show("Comecando a executar o algoritmo: " + memoryManager.getName());
+
         for(Request request : this.requests) {
             while(!request.hasFinished()) {
-                Integer id = request.getNext();
-    
+                Integer id = request.getNext();                
                 this.memoryManager.lookup(id);
             }
+            
+            request.clear();
         }
+
+        this.pageMisses = memoryManager.getPageMisses();
     }
 
-    public void summary() {
-        System.out.println("----- SUMMARY -----");
-        System.out.println();
-        System.out.println("Algorithm: " + memoryManager.getName());
-        System.out.println("Buffer Size: " + memoryManager.getBufferSize());
-        System.out.println("Page Misses: " + memoryManager.getPageMisses());
-        System.out.println();
-        System.out.println("Requests");
+    public MemoryManager getAlgorithm() {
+        return this.memoryManager;
+    }
 
-        Integer i = 1;
-        for(Request request : this.requests) {
-            System.out.println("R" + i + ":");
-            System.out.println("Type: " + request.getName());
-            System.out.println("Quantity: " + request.getQuantity());
-            System.out.println("Requests: " + request.getRequests());
-            System.out.println();
-            i++;
-        }
+    public Integer getPageMisses() {
+        return this.pageMisses;
     }
 }

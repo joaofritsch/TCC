@@ -1,4 +1,6 @@
-package request;
+package request.types;
+
+import request.Request;
 
 public class SequentialRequest extends Request {
 

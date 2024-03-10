@@ -53,4 +53,8 @@ public abstract class Request {
     public ArrayList<Integer> getRequests() {
         return this.requests;
     }
+
+    public void clear() {
+        this.index = 0;
+    }
 }

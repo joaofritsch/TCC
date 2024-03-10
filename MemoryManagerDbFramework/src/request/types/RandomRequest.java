@@ -1,6 +1,8 @@
-package request;
+package request.types;
 
 import java.util.Random;
+
+import request.Request;
 
 public class RandomRequest extends Request {
 
