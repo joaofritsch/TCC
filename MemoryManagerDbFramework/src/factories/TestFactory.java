@@ -16,7 +16,7 @@ public class TestFactory {
         this.algorithms = algorithms;
     }
     
-    private Test sequencialAccess() {
+    private Test testSequencialAccess() {
         SequentialRequest sequentialRequest = new SequentialRequest(10, 1, 5);
 
         ArrayList<Request> requests = new ArrayList<Request>();
@@ -28,8 +28,9 @@ public class TestFactory {
     }
 
 
-    private Test customAccess() {
+    private Test testCustomAccess() {
         ArrayList<Integer> r = new ArrayList<Integer>();
+
         r.add(7);
         r.add(0);
         r.add(1);
@@ -46,6 +47,46 @@ public class TestFactory {
         r.add(1);
         r.add(2);
 
+        // r.add(0);
+        // r.add(4);
+        // r.add(1);
+        // r.add(4);
+        // r.add(2);
+        // r.add(4);
+        // r.add(3);
+        // r.add(4);
+        // r.add(2);
+        // r.add(4);
+        // r.add(0);
+        // r.add(4);
+        // r.add(1);
+        // r.add(4);
+        // r.add(2);
+        // r.add(4);
+        // r.add(3);
+        // r.add(4);
+
+        // r.add(2);
+        // r.add(5);
+        // r.add(10);
+        // r.add(1);
+        // r.add(2);
+        // r.add(2);
+        // r.add(6);
+        // r.add(9);
+        // r.add(1);
+        // r.add(2);
+        // r.add(10);
+        // r.add(2);
+        // r.add(6);
+        // r.add(1);
+        // r.add(2);
+        // r.add(1);
+        // r.add(6);
+        // r.add(9);
+        // r.add(5);
+        // r.add(1);
+
         CustomRequest customRequest = new CustomRequest(r);
         
         ArrayList<Request> requests = new ArrayList<Request>();
@@ -59,8 +100,8 @@ public class TestFactory {
     public ArrayList<Test> generate() {
         ArrayList<Test> tests = new ArrayList<Test>();
 
-        tests.add(sequencialAccess());
-        tests.add(customAccess());
+        // tests.add(testSequencialAccess());
+        tests.add(testCustomAccess());
 
         return tests;
     }
