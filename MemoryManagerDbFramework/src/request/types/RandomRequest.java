@@ -13,10 +13,6 @@ public class RandomRequest extends Request {
     @Override
     public void fillRequests() {
         Random random = new Random();
-
-        for (int i = 0; i < this.quantity; i++) {
-            int randomNumber = random.nextInt(this.end - this.start + 1) + this.start;
-            this.requests.add(randomNumber);
-        }
+        for (int i = 0; i < quantity; i++) requests.add(random.nextInt(end - start + 1) + start);
     }
 }

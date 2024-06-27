@@ -11,54 +11,47 @@ public class SecondChance extends MemoryManager {
     private LinkedList<Integer> bufferOrder;
     private HashMap<Integer, Boolean> secondChanceFlags;
     
-    public SecondChance(Integer bufferSize, Boolean countFirstAccesses) {
-        super("Second Chance", bufferSize, countFirstAccesses);
-
-        this.bufferOrder = new LinkedList<Integer>();
-        this.secondChanceFlags = new HashMap<Integer, Boolean>();
-    }
-
-    @Override
-    public void lookup(Integer id) {
-        Log.show("Id: " + id);
-
-        if(!this.buffer.contains(id)) {
-            if(this.countFirstAccesses || (this.buffer.size() == this.bufferSize)) {
-                this.pageMisses++;
-                Log.show("miss");
-            }
-
-            if(this.buffer.size() == this.bufferSize) {
-                removeSecondChance();
-            }
-
-            this.buffer.add(id);
-            this.bufferOrder.addLast(id);
-            this.secondChanceFlags.put(id, false);
-        } else {
-            this.secondChanceFlags.put(id, true);
-        }
-
-        Log.show(this.buffer);
-        Log.show("Buffer Order: " + this.bufferOrder);
-        Log.show("Flags: " + this.secondChanceFlags);
-        Log.show();
+    public SecondChance(Integer bufferSize) {
+        super("Second Chance", bufferSize);
+        bufferOrder = new LinkedList<Integer>();
+        secondChanceFlags = new HashMap<Integer, Boolean>();
     }
     
-    private void removeSecondChance() {
+    @Override
+    protected void remove() {
         while(true) {
-            Integer id = this.bufferOrder.peekFirst();
+            Integer id = bufferOrder.peekFirst();
 
-            if(this.secondChanceFlags.get(id)) {
-                this.bufferOrder.removeFirst();
-                this.bufferOrder.addLast(id);
-                this.secondChanceFlags.put(id, false);
+            if(secondChanceFlags.get(id)) {
+                bufferOrder.removeFirst();
+                bufferOrder.addLast(id);
+                secondChanceFlags.put(id, false);
             } else {
-                this.bufferOrder.removeFirst();
-                this.buffer.remove(id);
-                this.secondChanceFlags.remove(id);
+                bufferOrder.removeFirst();
+                buffer.remove(id);
+                secondChanceFlags.remove(id);
                 break;
             }
         }
+    }
+
+    @Override
+    protected void add(Integer id) {
+        buffer.add(id);
+        bufferOrder.addLast(id);
+        secondChanceFlags.put(id, false);
+    }
+
+    @Override
+    protected void reorder(Integer id) {
+        secondChanceFlags.put(id, true);
+    }
+
+    @Override
+    protected void show() {
+        Log.show(buffer);
+        Log.show("Buffer Order: " + bufferOrder);
+        Log.show("Flags: " + secondChanceFlags);
+        Log.show();
     }
 }

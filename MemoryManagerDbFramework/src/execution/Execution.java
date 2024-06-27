@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import logs.Log;
 import memoryManager.MemoryManager;
+import memoryManager.algorithms.Optimal;
 import request.Request;
 
 public class Execution {
@@ -15,29 +16,34 @@ public class Execution {
     public Execution(ArrayList<Request> requests, MemoryManager memoryManager) {
         this.requests = requests;
         this.memoryManager = memoryManager;
-        this.pageMisses = 0;
+        pageMisses = 0;
     }
 
     public void start() {
         Log.show("Comecando a executar o algoritmo: " + memoryManager.getName());
 
-        for(Request request : this.requests) {
+        for(Request request : requests) {
+            if(memoryManager instanceof Optimal) {
+                Optimal optimal = (Optimal)memoryManager;
+                optimal.setFutureAccesses(request.getRequests());
+            }
+
             while(!request.hasFinished()) {
                 Integer id = request.getNext();                
-                this.memoryManager.lookup(id);
+                memoryManager.lookup(id);
             }
             
             request.clear();
         }
 
-        this.pageMisses = memoryManager.getPageMisses();
+        pageMisses = memoryManager.getPageMisses();
     }
 
     public MemoryManager getAlgorithm() {
-        return this.memoryManager;
+        return memoryManager;
     }
 
     public Integer getPageMisses() {
-        return this.pageMisses;
+        return pageMisses;
     }
 }

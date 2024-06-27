@@ -1,6 +1,7 @@
 package factories;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import memoryManager.MemoryManager;
 import request.Request;
@@ -17,92 +18,35 @@ public class TestFactory {
     }
     
     private Test testSequencialAccess() {
-        SequentialRequest sequentialRequest = new SequentialRequest(10, 1, 5);
-
-        ArrayList<Request> requests = new ArrayList<Request>();
-        requests.add(sequentialRequest);
-
-        Test test = new Test(algorithms, requests);
-
-        return test;
+        return new Test(
+            algorithms, 
+            new ArrayList<Request>() {{ 
+                add(new SequentialRequest(10, 1, 5)); 
+            }}
+        );
     }
 
+    private Test testCustomAccess2() {
+        return new Test(
+            algorithms, 
+            new ArrayList<Request>() {{
+                add(new CustomRequest(new ArrayList<>(Arrays.asList(2, 1, 2, 2, 1, 4, 4, 5, 6, 7))));
+            }}
+        );
+    }
 
     private Test testCustomAccess() {
-        ArrayList<Integer> r = new ArrayList<Integer>();
-
-        r.add(7);
-        r.add(0);
-        r.add(1);
-        r.add(2);
-        r.add(0);
-        r.add(3);
-        r.add(0);
-        r.add(4);
-        r.add(2);
-        r.add(3);
-        r.add(0);
-        r.add(3);
-        r.add(2);
-        r.add(1);
-        r.add(2);
-
-        // r.add(0);
-        // r.add(4);
-        // r.add(1);
-        // r.add(4);
-        // r.add(2);
-        // r.add(4);
-        // r.add(3);
-        // r.add(4);
-        // r.add(2);
-        // r.add(4);
-        // r.add(0);
-        // r.add(4);
-        // r.add(1);
-        // r.add(4);
-        // r.add(2);
-        // r.add(4);
-        // r.add(3);
-        // r.add(4);
-
-        // r.add(2);
-        // r.add(5);
-        // r.add(10);
-        // r.add(1);
-        // r.add(2);
-        // r.add(2);
-        // r.add(6);
-        // r.add(9);
-        // r.add(1);
-        // r.add(2);
-        // r.add(10);
-        // r.add(2);
-        // r.add(6);
-        // r.add(1);
-        // r.add(2);
-        // r.add(1);
-        // r.add(6);
-        // r.add(9);
-        // r.add(5);
-        // r.add(1);
-
-        CustomRequest customRequest = new CustomRequest(r);
-        
-        ArrayList<Request> requests = new ArrayList<Request>();
-        requests.add(customRequest);
-
-        Test test = new Test(algorithms, requests);
-
-        return test;
+        return new Test(
+            algorithms, 
+            new ArrayList<Request>() {{
+                add(new CustomRequest(new ArrayList<>(Arrays.asList(7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2))));
+            }}
+        );
     }
 
     public ArrayList<Test> generate() {
-        ArrayList<Test> tests = new ArrayList<Test>();
-
-        // tests.add(testSequencialAccess());
-        tests.add(testCustomAccess());
-
-        return tests;
+        return new ArrayList<Test>() {{
+            add(testCustomAccess());
+        }};
     }
 }

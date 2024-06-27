@@ -15,46 +15,44 @@ public abstract class Request {
         this.quantity = quantity;
         this.start = start;
         this.end = end;
-        this.index = 0;
-
-        this.requests = new ArrayList<Integer>();
-        this.fillRequests();
+        index = 0;
+        requests = new ArrayList<Integer>();
+        fillRequests();
     }
 
     public abstract void fillRequests();
 
     public Boolean hasFinished() {
-        return this.requests.size() == this.index;
+        return index.equals(requests.size());
     }
 
     public Integer getNext() {
-        Integer request = this.requests.get(index);
-        this.index++;
-
+        Integer request = requests.get(index);
+        index++;
         return request;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public Integer getQuantity() {
-        return this.quantity;
+        return quantity;
     }
 
     public Integer getStart() {
-        return this.start;
+        return start;
     }
 
     public Integer getEnd() {
-        return this.end;
+        return end;
     }
 
     public ArrayList<Integer> getRequests() {
-        return this.requests;
+        return requests;
     }
 
     public void clear() {
-        this.index = 0;
+        index = 0;
     }
 }

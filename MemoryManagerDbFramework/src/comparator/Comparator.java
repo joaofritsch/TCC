@@ -13,35 +13,26 @@ public class Comparator {
     private ArrayList<Test> tests;
     private Integer bufferSize;
 
-    public Comparator(Integer bufferSize, Boolean countFirstAccess) {
+    public Comparator(Integer bufferSize) {
         this.bufferSize = bufferSize;
-        this.algorithms = new AlgorithmFactory(bufferSize, countFirstAccess).generate();
-        this.tests = new TestFactory(this.algorithms).generate();
+        algorithms = new AlgorithmFactory(bufferSize).generate();
+        tests = new TestFactory(algorithms).generate();
     }
 
     public void start() {
-        for(Test test : this.tests) {
-            test.start();
-        }
+        for(Test test : tests) test.start();
     }
 
     public void summary() {
         System.out.println("------------------------------ RESULTS ------------------------------");
         System.out.println("---------- GENERAL INFORMATION ----------");
-        System.out.println("Buffer Size: " + this.bufferSize);
+        System.out.println("Buffer Size: " + bufferSize);
         System.out.println();
-
         System.out.println("Tested Algorithms: ");
-        for(MemoryManager algorithm : this.algorithms) {
-            System.out.println(algorithm.getName());
-        }
-
+        for(MemoryManager algorithm : algorithms) System.out.println(algorithm.getName());
         System.out.println("-----------------------------------------");
         System.out.println();
-
-        for(Test test : this.tests) {
-            test.summary();
-        }
+        for(Test test : tests) test.summary();
         System.out.println("-----------------------------------------------------------------------");
     }
 }

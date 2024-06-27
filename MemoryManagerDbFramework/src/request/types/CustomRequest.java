@@ -8,7 +8,6 @@ public class CustomRequest extends Request {
     
     public CustomRequest(ArrayList<Integer> requests) {
         super("Custom Request", requests.size(), null, null);
-
         this.requests = requests;
     }
 

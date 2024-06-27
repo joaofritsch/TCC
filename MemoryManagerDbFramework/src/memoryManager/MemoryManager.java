@@ -1,38 +1,60 @@
 package memoryManager;
 import java.util.ArrayList;
 
+import logs.Log;
+
 public abstract class MemoryManager {
     
     protected String name;
     protected Integer bufferSize;
     protected ArrayList<Integer> buffer;
-    protected Integer pageMisses;
-    protected Boolean countFirstAccesses;
+    private Integer pageMisses;
 
-    public MemoryManager(String name, Integer bufferSize, Boolean countFirstAccesses) {
+    public MemoryManager(String name, Integer bufferSize) {
         this.name = name;
         this.bufferSize = bufferSize;
-        this.buffer = new ArrayList<Integer>();
-        this.pageMisses = 0;
-        this.countFirstAccesses = countFirstAccesses;
+        buffer = new ArrayList<Integer>();
+        pageMisses = 0;
     }
 
-    public abstract void lookup(Integer id);
+    protected abstract void remove();
+    protected abstract void add(Integer id);
+    protected abstract void reorder(Integer id);
+    protected abstract void show();
+
+    public void lookup(Integer id) {
+        Log.show("Id: " + id);
+
+        if(buffer.contains(id)) {
+            reorder(id);
+        } else {
+            Log.show("miss");
+            pageMisses++;
+            if(isBufferFull()) remove();
+            add(id);
+        }
+
+        show();
+    }
+
+    private Boolean isBufferFull() {
+        return bufferSize.equals(buffer.size());
+    }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public Integer getBufferSize() {
-        return this.bufferSize;
+        return bufferSize;
     }
 
     public Integer getPageMisses() {
-        return this.pageMisses;
+        return pageMisses;
     }
 
     public void clear() {
-        this.buffer.clear();
-        this.pageMisses = 0;
+        buffer.clear();
+        pageMisses = 0;
     }
 }

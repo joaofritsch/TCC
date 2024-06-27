@@ -5,28 +5,26 @@ import memoryManager.MemoryManager;
 
 public class FirstInFirstOut extends MemoryManager {
     
-    public FirstInFirstOut(Integer bufferSize, Boolean countFirstAccesses) {
-        super("First In First Out (FIFO)", bufferSize, countFirstAccesses);
+    public FirstInFirstOut(Integer bufferSize) {
+        super("First In First Out (FIFO)", bufferSize);
     }
 
     @Override
-    public void lookup(Integer id) {
-        Log.show("Id: " + id);
+    protected void remove() {
+        buffer.remove(0);
+    }
 
-        if(!this.buffer.contains(id)) {
-            if(this.countFirstAccesses || (this.buffer.size() == this.bufferSize)) {
-                this.pageMisses++;
-                Log.show("miss");
-            }
+    @Override
+    protected void add(Integer id) {
+        buffer.add(id);
+    }
 
-            if(this.buffer.size() == this.bufferSize) {
-                this.buffer.remove(0);
-            }
+    @Override
+    protected void reorder(Integer id) {}
 
-            this.buffer.add(id);
-        }
-
-        Log.show(this.buffer);
+    @Override
+    protected void show() {
+        Log.show(buffer);
         Log.show();
     }
 }

@@ -4,31 +4,29 @@ import memoryManager.MemoryManager;
 
 public class LeastRecentlyUsed extends MemoryManager {
 
-    public LeastRecentlyUsed(Integer bufferSize, Boolean countFirstAccesses) {
-        super("Least Recently Used (LRU)", bufferSize, countFirstAccesses);
+    public LeastRecentlyUsed(Integer bufferSize) {
+        super("Least Recently Used (LRU)", bufferSize);
     }
 
     @Override
-    public void lookup(Integer id) {
-        Log.show("Id: " + id);
+    protected void remove() {
+        buffer.remove(0);
+    }
 
-        if(!this.buffer.contains(id)) {
-            if(this.countFirstAccesses || (this.buffer.size() == this.bufferSize)) {
-                this.pageMisses++;
+    @Override
+    protected void add(Integer id) {
+        buffer.add(id);
+    }
 
-                Log.show("miss");
-            }
+    @Override
+    protected void reorder(Integer id) {
+        buffer.remove(id);
+        buffer.add(id);
+    }
 
-            if(this.buffer.size() == this.bufferSize) {
-                this.buffer.remove(0);
-            }
-        } else {
-            this.buffer.remove(id);
-        }
-
-        this.buffer.add(id);
-
-        Log.show(this.buffer);
+    @Override
+    protected void show() {
+        Log.show(buffer);
         Log.show();
     }
 }

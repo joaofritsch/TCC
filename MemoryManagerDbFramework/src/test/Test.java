@@ -15,20 +15,18 @@ public class Test {
     private Integer id;
     
     public Test(ArrayList<MemoryManager> algorithms, ArrayList<Request> requests) {
-        this.executions = new ArrayList<Execution>();
         this.algorithms = algorithms;
         this.requests = requests;
-        this.id = ID;
-
+        executions = new ArrayList<Execution>();
+        id = ID;
         ID += 1;
     }
 
     public void start() {
-        for(MemoryManager algorithm : this.algorithms) {
+        for(MemoryManager algorithm : algorithms) {
             Execution execution = new Execution(requests, algorithm);
             execution.start();
-
-            this.executions.add(execution);
+            executions.add(execution);
             algorithm.clear();
         }
     }
@@ -38,7 +36,7 @@ public class Test {
         System.out.println();
 
         Integer i = 1;
-        for(Request request : this.requests) {
+        for(Request request : requests) {
             System.out.println("Request " + i + ":");
             System.out.println("Type: " + request.getName());
             System.out.println("Quantity: " + request.getQuantity());
@@ -47,7 +45,7 @@ public class Test {
             i++;
         }
 
-        for(Execution execution : this.executions) {
+        for(Execution execution : executions) {
             System.out.println("Algorithm: " + execution.getAlgorithm().getName());
             System.out.println("Page Misses: " + execution.getPageMisses());
         }
